@@ -2,13 +2,30 @@
   <div id="app">
     <div class="cm-container">
       <div class="cm-logo-wrapper">
-        <img alt="Carb Manager" src="./assets/cm-logo.svg" class="cm-logo" />
+        <img
+          alt="Carb Manager"
+          src="./assets/svg/cm-logo.svg"
+          class="cm-logo"
+        />
       </div>
       <h2>Carb Manager Dev Assignment</h2>
       <p>See the README file for assignment requirements.</p>
 
-      <div class="premium-recipe-wrapper">
-        <PremiumRecipeCard />
+      <div class="recipe-wrapper">
+        <PremiumRecipeCard
+          v-for="(card, index) in cards"
+          :key="index"
+          :onClick="onCardClick"
+          :card="card"
+        />
+      </div>
+      <div class="recipe-wrapper">
+        <RecipeOfTheDay
+          v-for="(card, index) in cards"
+          :key="index"
+          :onClick="onCardClick"
+          :card="card"
+        />
       </div>
     </div>
   </div>
@@ -16,11 +33,24 @@
 
 <script>
 import PremiumRecipeCard from "./components/PremiumRecipeCard.vue";
+import RecipeOfTheDay from "./components/RecipeOfTheDay.vue";
+import { cards } from "./mock";
 
 export default {
   name: "App",
   components: {
-    PremiumRecipeCard
+    PremiumRecipeCard,
+    RecipeOfTheDay
+  },
+  data: function() {
+    return {
+      cards: cards
+    };
+  },
+  methods: {
+    onCardClick: event => {
+      console.log("clicked", event);
+    }
   }
 };
 </script>
@@ -51,10 +81,17 @@ export default {
   margin: auto;
 }
 
-/** Remove these styles when done */
-.premium-recipe-wrapper {
-  margin-top: 100px;
-  border: 2px dashed red;
+.recipe-wrapper {
   padding: 16px;
+  display: flex;
+  justify-content: space-around;
+}
+@media screen and (max-width: 686px) {
+  .recipe-wrapper {
+    display: grid;
+  }
+  .recipe-wrapper > div:not(:first-child) {
+    margin-top: 1rem;
+  }
 }
 </style>
